@@ -1,0 +1,171 @@
+/* 1. CSS Reset -------------------------------------------------------------- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 2. Root Variables --------------------------------------------------------- */
+:root {
+    /* Site background color */
+   
+    --color-heading: #004d40;
+    --color-bg: #8dd8c0;
+    --color-text: #343a40;
+    --color-link: #0d6efd;
+    --color-light: #ffffff;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+    --radius: 0.25rem;
+    --font-sans: 'Helvetica Neue', Arial, sans-serif;
+}
+
+
+
+/* 3. Base Styles ------------------------------------------------------------ */
+html {
+    font-size: 100%; /* 1rem = 16px */
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 4. Headings & Typography -------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-heading) !important;
+    line-height: 1.2;
+}
+
+p {
+    margin-bottom: var(--spacing-md);
+}
+
+a {
+    color: var(--color-link);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+    a:hover,
+    a:focus {
+        text-decoration: underline;
+    }
+
+/* 5. Hero Section ----------------------------------------------------------- */
+.hero {
+    position: relative;
+    background: url('/bg2.png') center/cover no-repeat;
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    .hero > .container {
+        position: relative;
+        z-index: 1;
+    }
+
+/* 6. Layout Utilities ------------------------------------------------------- */
+.container {
+    max-width: 1140px;
+    padding: 0 var(--spacing-md);
+    margin: 0 auto;
+}
+
+/* 7. Spacing Utilities ------------------------------------------------------ */
+.mt-sm {
+    margin-top: var(--spacing-sm) !important;
+}
+
+.mb-sm {
+    margin-bottom: var(--spacing-sm) !important;
+}
+
+.mt-md {
+    margin-top: var(--spacing-md) !important;
+}
+
+.mb-md {
+    margin-bottom: var(--spacing-md) !important;
+}
+
+.mt-lg {
+    margin-top: var(--spacing-lg) !important;
+}
+
+.mb-lg {
+    margin-bottom: var(--spacing-lg) !important;
+}
+
+/* 8. Button Base Overrides ------------------------------------------------- */
+button,
+.btn {
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+}
+
+/* 9. Form Elements ---------------------------------------------------------- */
+input,
+textarea,
+select {
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* 10. Blockquote Styling ---------------------------------------------------- */
+.blockquote {
+    padding: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+    border-left: 0.25rem solid var(--color-link);
+    background-color: var(--color-light);
+}
+
+.blockquote-footer {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: var(--spacing-sm);
+}
+
+/* 11. Utility Classes ------------------------------------------------------- */
+.text-center {
+    text-align: center !important;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.flex-column {
+    flex-direction: column !important;
+}
+
+.min-vh-100 {
+    min-height: 100vh !important;
+}
