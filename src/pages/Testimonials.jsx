@@ -12,6 +12,11 @@ const testimonials = [
             'Newborn Gentle Care Specialists were a godsend during my postpartum recovery. Their support allowed me to rest and bond with my baby without worry. Highly recommend!',
     },
     {
+        name: 'Samantha A.',
+        message:
+            'Michelle has been wonderful! She is so helpful with my newborn and sweet with my three year old. She is incredibly warm, knowledgeable and trustworthy, I highly recommend her to anyone.',
+    },
+    {
         name: 'Mark S., Satisfied Dad',
         message:
             'Professional, compassionate, and truly experts in their field. Newborn Gentle Care provided invaluable support that made our transition into parenthood so much smoother.',
