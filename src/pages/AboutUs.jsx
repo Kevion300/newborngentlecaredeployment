@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 // Only one team member for now
 const team = [
     {
-        name: 'Michelle Burton',
+        name: 'Michelle Edwards',
         role: 'Founder & Lead Postpartum Doula',
         photo: '/team/michelle.jpg',
     },
@@ -63,7 +63,7 @@ export default function AboutUs() {
                             </p>
                             <p>
                                 At Gentle Care, every family is a story waiting to be told. I’m Michelle
-                                Burton—your guide through the magical (and sometimes messy) journey of
+                                Edwards—your guide through the magical (and sometimes messy) journey of
                                 newborn life. From first feeds to peaceful sleep, I bring gentle,
                                 expert support to help you write your own happy beginning.
                             </p>
