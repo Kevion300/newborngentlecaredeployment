@@ -123,8 +123,8 @@ export default function AboutUs() {
 
                 {/* Call to Action */}
                 <div className="text-center">
-                    <Link to="/contact" className="btn btn-outline-primary btn-lg cover-button">
-                        Contact Us Today
+                    <Link to="/services" className="btn btn-outline-primary btn-lg cover-button">
+                        Our Services
                     </Link>
                 </div>
             </div>
