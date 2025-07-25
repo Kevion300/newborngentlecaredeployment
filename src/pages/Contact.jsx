@@ -13,7 +13,7 @@ export default function Contact() {
         <section className="contact-us py-5 storybook-testimonials">
             <div className="container">
                 {/* Page Title */}
-                <h2 className="cover-title text-center mb-5">Get in Touch with Gentle Care</h2>
+                <h2 className="cover-title text-center mb-5">Get in Touch with Newborn Gentle Care</h2>
 
                 {/* Contact Methods */}
                 <div className="row mb-5">
