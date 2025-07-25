@@ -14,7 +14,7 @@ export default function Home() {
 
     return (
         <div className={`cover-page${flipped ? ' flipped' : ''}`}>
-            <h1 className="cover-title">NEWBORN GENTLE CARE</h1>
+            <h1 className="cover-title"> GENTLE CARE NEWBORN SPECIALISTS</h1>
             <img
                 src="/cover-image.png"
                 alt="Gentle Care cover"

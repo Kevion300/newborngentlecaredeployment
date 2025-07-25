@@ -4,12 +4,12 @@ const testimonials = [
     {
         name: 'Janet D.',
         message:
-            'Our sleep consultant from Newborn Gentle Care helped us establish healthy sleep habits for our newborn. We went from sleepless nights to peaceful rest in just a few days!',
+            'Our sleep consultant from Gentle Care Newborn Specialists helped us establish healthy sleep habits for our newborn. We went from sleepless nights to peaceful rest in just a few days!',
     },
     {
         name: 'Sarah L., New Mom',
         message:
-            'Newborn Gentle Care Specialists were a godsend during my postpartum recovery. Their support allowed me to rest and bond with my baby without worry. Highly recommend!',
+            'Gentle Care Newborn Specialists were a godsend during my postpartum recovery. Their support allowed me to rest and bond with my baby without worry. Highly recommend!',
     },
     {
         name: 'Samantha A.',
@@ -19,17 +19,17 @@ const testimonials = [
     {
         name: 'Mark S., Satisfied Dad',
         message:
-            'Professional, compassionate, and true experts in their field. Newborn Gentle Care provided invaluable support that made our transition into parenthood so much smoother.',
+            'Professional, compassionate, and true experts in their field. Gentle Care Newborn Specialist provided invaluable support that made our transition into parenthood so much smoother.',
     },
     {
         name: 'Jessica M., Grateful Client',
         message:
-            'Newborn Gentle Care Specialists were incredibly knowledgeable and kind. They taught us so much and made us feel confident as first‑time parents. Best decision ever!',
+            'Gentle Care Newborn Specialists were incredibly knowledgeable and kind. They taught us so much and made us feel confident as first‑time parents. Best decision ever!',
     },
     {
         name: 'Trudie B.',
         message:
-            'Newborn Gentle Care Specialists have been taking care of our newborn for the past 6 weeks. She has been the perfect overnight doula for my baby girl. Everything they do—from bathing to feeding to swaddling—is both gentle and educational. Thank you for everything!',
+            'Gentle Care Newborn Specialists have been taking care of our newborn for the past 6 weeks. She has been the perfect overnight doula for my baby girl. Everything they do—from bathing to feeding to swaddling—is both gentle and educational. Thank you for everything!',
     },
 ];
 

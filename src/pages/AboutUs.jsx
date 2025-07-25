@@ -62,7 +62,7 @@ export default function AboutUs() {
                                 NCS & Sleep Consultation with over 25 years of experience.
                             </p>
                             <p>
-                                At Gentle Care, every family is a story waiting to be told. I’m Michelle
+                                At Gentle Care Newborn Specialists, every family is a story waiting to be told. I’m Michelle
                                 Edwards—your guide through the magical (and sometimes messy) journey of
                                 newborn life. From first feeds to peaceful sleep, I bring gentle,
                                 expert support to help you write your own happy beginning.
