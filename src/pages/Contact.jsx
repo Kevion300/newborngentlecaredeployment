@@ -1,12 +1,19 @@
-import React from 'react';
+// src/pages/Contact.jsx
+
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Contact() {
+    // ensure we're at top when this page loads
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
-        <section className="contact-us py-5">
+        <section className="contact-us py-5 storybook-testimonials">
             <div className="container">
                 {/* Page Title */}
-                <h2 className="text-center mb-5">Get in Touch with Gentle Care</h2>
+                <h2 className="cover-title text-center mb-5">Get in Touch with Gentle Care</h2>
 
                 {/* Contact Methods */}
                 <div className="row mb-5">
@@ -23,7 +30,23 @@ export default function Contact() {
                     <div className="col-12 col-md-4 text-center mb-4">
                         <i className="bi bi-geo-alt-fill fs-1 text-primary mb-3"></i>
                         <h5>Visit Us</h5>
-                        <p>175 Main Street<br />East Haven, CT 06512</p>
+                        <p>
+                            175 Main Street<br />
+                            East Haven, CT 06512
+                        </p>
+                    </div>
+                </div>
+
+                {/* Open Hours */}
+                <div className="row mb-5">
+                    <div className="col-12 text-center">
+                        <i className="bi bi-clock-fill fs-1 text-primary mb-3"></i>
+                        <h5>Open Hours</h5>
+                        <ul className="list-unstyled mb-0">
+                            <li><strong>24/7 Support</strong></li>
+                            <li>Overnight Care: 7 PM – 7 AM</li>
+                            <li>Daytime Shift: 9 AM – 5 PM</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -48,7 +71,7 @@ export default function Contact() {
                 {/* Call to Action */}
                 <div className="text-center">
                     <h4 className="mb-3">Interested in Our Services?</h4>
-                    <Link to="/services" className="btn btn-primary btn-lg">
+                    <Link to="/services" className="btn btn-outline-primary btn-lg cover-button">
                         Explore Our Services
                     </Link>
                 </div>

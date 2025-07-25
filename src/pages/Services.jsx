@@ -1,81 +1,89 @@
-import React from 'react';
+// src/pages/Services.jsx
+
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const services = [
     {
-        icon: 'bi-people-fill',
         title: 'Postpartum Doula Support',
         description:
-            'Our postpartum doulas offer compassionate emotional and physical recovery support after birth. We provide invaluable guidance on newborn care, including feeding, diapering, and comforting. Our goal is to ensure a smooth and joyful transition into new parenthood, helping you build confidence and connect you with community resources.',
+            'Our postpartum doulas offer compassionate emotional and physical recovery support after birth. We provide invaluable guidance on newborn care, including feeding, diapering, and comforting. Our goal is to ensure a smooth and joyful transition into new parenthood.',
+        image: '/postpartum-doula-support.png',
     },
     {
-        icon: 'bi-heart-pulse-fill',
         title: 'Newborn Care Specialists',
         description:
-            'Our highly trained newborn care specialists provide comprehensive support tailored to your baby needs during the first few months. This includes establishing healthy feeding and sleep routines, hands on assistance with diapering, bathing, and soothing techniques. we also help troubleshoot common newborn issues like colic and reflux, empowering you with the knowledge and skills for confident parenting',
+            'Our highly trained newborn care specialists provide comprehensive support tailored to your baby’s needs during the first few months. This includes establishing healthy feeding and sleep routines, hands‑on assistance with diapering, bathing, and soothing techniques.',
+        image: '/newborn-care-specialists.png',
     },
     {
-        icon: 'bi-moon-stars-fill',
         title: 'Sleep Consultation',
         description:
-            'Achieve restful nights with our personalized sleep consultation services. We work with families to develop gentle sleep plans that respect your baby individual needs and your parenting philosophy. Wether you aredealing with early rising, frequent night wakings, short naps, or difficulty falling asleep independently, we provide evidence-based strategies and ongoing support to foster healthy, long-lasting sleep habits for your little one ',
+            'Achieve restful nights with our personalized sleep consultation services. We develop gentle sleep plans that respect your baby’s individual needs and your parenting philosophy.',
+        image: '/sleep-consultation.png',
     },
     {
-        icon: 'bi-cup-straw', // consider switching to a diaper icon if you like
         title: 'Infant Feeding & Diaper Support',
-        description: `Comprehensive feeding and diapering care: 
-        Expert guidance on breastfeeding latch, bottle preparation & pump usage.  
-        Hands‑on diaper changes using gentle, rash‑preventing techniques.  
-        Skin‑to‑skin and soothing strategies to calm and comfort. 
-        Sterilization best practices and hygienic care for healthy skin.  
-        Personalized tips to keep your baby nourished, clean & content.
-  `.trim(),
+        description:
+            'Comprehensive feeding and diapering care: expert latch coaching, bottle/pump prep, gentle diaper changes, and skin‑to‑skin soothing strategies.',
+        image: '/infant-feeding-diaper-support.png',
     },
     {
-        icon: 'bi-people-fill',
         title: 'Sibling Adjustments',
         description:
-            'Gentle, age‑appropriate strategies to help older siblings welcome the new baby.',
+            'Gentle, age‑appropriate strategies to help older siblings welcome the new baby and adjust to the growing family.',
+        image: '/sibling-adjustments.png',
     },
     {
-        icon: 'bi-brightness-high-fill',
         title: 'Overnight Care',
         description:
-            'Peace of mind with overnight support—let yourself rest while we tend to your newborn’s needs.',
+            'Peace of mind with overnight support—rest easy while we tend to your newborn’s needs and prepare a cozy morning welcome.',
+        image: '/overnight-care.png',
     },
     {
-        icon: 'bi-arrow-repeat',
         title: 'Infant Laundry',
         description:
-            'Laundry care for all those tiny outfits—clean, dry, and folded, ready for baby’s next adventure.',
+            'Laundry care for all those tiny outfits—clean, dry, and folded, ready for your baby’s next adventure.',
+        image: '/infant-laundry.png',
     },
 ];
 
 export default function Services() {
+    // Scroll to top when this page mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <section className="py-5">
             <div className="container">
-                <h2 className="text-center mb-2">Our Services</h2>
-                <p className="text-center text-muted mb-5">
+                <h1 className="text-center mb-2">Our Services</h1>
+                <p className="text-center mb-5">
                     Comprehensive newborn & postpartum care tailored to your family.
                 </p>
 
-                <div className="row g-4">
-                    {services.map((svc, idx) => (
-                        <div key={idx} className="col-12 col-md-6 col-lg-4">
-                            <div className="card h-100 shadow-sm border-0">
-                                <div className="card-body text-center">
-                                    <i className={`bi ${svc.icon} fs-1 text-primary mb-3`}></i>
-                                    <h5 className="card-title">{svc.title}</h5>
-                                    <p className="card-text text-muted">{svc.description}</p>
-                                </div>
-                            </div>
+                {services.map((svc, idx) => (
+                    <div key={idx} className="row align-items-center mb-5">
+                        {/* Text column */}
+                        <div className={`col-md-6 ${idx % 2 === 1 ? 'order-md-2' : ''}`}>
+                            <h4 className="mb-3">{svc.title}</h4>
+                            <p>{svc.description}</p>
                         </div>
-                    ))}
-                </div>
+
+                        {/* Image column */}
+                        <div className={`col-md-6 text-center ${idx % 2 === 1 ? 'order-md-1' : ''}`}>
+                            <img
+                                src={svc.image}
+                                alt={svc.title}
+                                className="img-fluid rounded shadow-sm"
+                                style={{ maxHeight: '300px', width: 'auto' }}
+                            />
+                        </div>
+                    </div>
+                ))}
 
                 <div className="text-center mt-5">
-                    <Link to="/contact" className="btn btn-outline-primary btn-lg">
+                    <Link to="/contact" className="btn btn-outline-primary btn-lg cover-button">
                         Inquire About a Service
                     </Link>
                 </div>

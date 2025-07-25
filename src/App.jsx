@@ -1,4 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
+// src/App.jsx
+import React from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -9,11 +11,15 @@ import Testimonials from './pages/Testimonials';
 import Contact from './pages/Contact';
 
 export default function App() {
+    const { pathname } = useLocation();
+    const isHome = pathname === '/';
+
     return (
         <div className="d-flex flex-column min-vh-100">
-            <Navbar />
+            {/* only show on non‑home pages */}
+            {!isHome && <Navbar />}
 
-            <main className="flex-grow-1 container py-5">
+            <main className={`flex-grow-1 container py-5${isHome ? '' : ''}`}>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/services" element={<Services />} />
@@ -23,7 +29,8 @@ export default function App() {
                 </Routes>
             </main>
 
-            <Footer />
+            {/* only show on non‑home pages */}
+            {!isHome && <Footer />}
         </div>
     );
 }

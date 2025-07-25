@@ -1,3 +1,6 @@
+/* 0. Import chunky rounded font for the cover page -------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap');
+
 /* 1. CSS Reset -------------------------------------------------------------- */
 *, *::before, *::after {
     margin: 0;
@@ -7,21 +10,24 @@
 
 /* 2. Root Variables --------------------------------------------------------- */
 :root {
-    /* Site background color */
-   
-    --color-heading: #004d40;
-    --color-bg: #8dd8c0;
-    --color-text: #343a40;
-    --color-link: #0d6efd;
+    /* Solid purple background everywhere */
+    --color-bg: #2e004f;
+    /* Light text for high contrast */
+    --color-text: #f0eefe;
+    /* Headings purely white */
+    --color-heading: #ffffff;
+    /* Softer lavender for links */
+    --color-link: #e0b3ff;
+    /* Utility light white */
     --color-light: #ffffff;
+    /* Spacing & sizing */
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
     --spacing-lg: 2rem;
     --radius: 0.25rem;
-    --font-sans: 'Helvetica Neue', Arial, sans-serif;
+    /* Base sans font */
+    --font-sans: 'Quicksand', 'Helvetica Neue', Arial, sans-serif;
 }
-
-
 
 /* 3. Base Styles ------------------------------------------------------------ */
 html {
@@ -48,8 +54,15 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
 }
 
+/* 15. Override only H1 & H2 to white */
+h1, h2 {
+    color: #ffffff !important;
+}
+
+/* Updated paragraph color to off‑white for visibility on purple */
 p {
     margin-bottom: var(--spacing-md);
+    color: var(--color-text); /* which is #f0eefe */
 }
 
 a {
@@ -60,33 +73,16 @@ a {
 
     a:hover,
     a:focus {
+        color: var(--color-heading);
         text-decoration: underline;
     }
 
-/* 5. Hero Section ----------------------------------------------------------- */
-.hero {
-    position: relative;
-    background: url('/bg2.png') center/cover no-repeat;
-    min-height: 75vh;
-    display: flex;
-    align-items: center;
-    color: white;
+/* 5. Hero & Cover Overrides ------------------------------------------------ */
+.hero,
+.cover-page {
+    /* remove any background-image so our purple shows */
+    background: none;
 }
-
-    .hero::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.4);
-    }
-
-    .hero > .container {
-        position: relative;
-        z-index: 1;
-    }
 
 /* 6. Layout Utilities ------------------------------------------------------- */
 .container {
@@ -149,7 +145,7 @@ textarea {
 
 .blockquote-footer {
     font-size: 0.9rem;
-    color: #6c757d;
+    color: var(--color-text);
     margin-top: var(--spacing-sm);
 }
 
@@ -169,3 +165,133 @@ textarea {
 .min-vh-100 {
     min-height: 100vh !important;
 }
+
+/* 12. Cover‑Page Styles (only for Home.jsx) -------------------------------- */
+.cover-page {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    perspective: 1000px; /* for flip */
+}
+
+.cover-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    color: var(--color-heading);
+}
+
+.cover-image {
+    max-width: 60%;
+    height: auto;
+    margin-bottom: 2rem;
+    border: 0.25rem solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.5rem;
+}
+
+.cover-button {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.25rem;
+    padding: 0.75rem 2rem;
+    color: var(--color-bg);
+    background-color: var(--color-heading);
+}
+
+/* 13. Page‑flip effect for the cover ---------------------------------------- */
+.cover-page,
+.cover-page > * {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease-in-out;
+}
+
+    .cover-page.flipped {
+        transform: rotateY(-180deg);
+    }
+/* 14. Storybook‑About text visibility and card styles ---------------------- */
+.storybook-about {
+    background-color: var(--color-bg); /* purple */
+    padding: 2rem 0;
+}
+
+    /* Titles in About remain white */
+    .storybook-about h2,
+    .storybook-about h3,
+    .storybook-about h4,
+    .storybook-about h5,
+    .storybook-about h6 {
+        color: var(--color-heading) !important;
+    }
+
+    /* All paragraphs, lead text, and card paragraphs become black */
+    .storybook-about p,
+    .storybook-about .lead,
+    .storybook-about .card-kids p {
+        color: #000000 !important;
+    }
+
+    /* Mission/Vision/Values cards: white background, dark headings */
+    .storybook-about .card-kids {
+        background-color: var(--color-light) !important;
+    }
+
+        .storybook-about .card-kids h5 {
+            color: #000000 !important;
+        }
+/* Fade‑in on scroll -------------------------------------------------------- */
+.fade-in-element {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+    .fade-in-element.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+/* Storybook‑Testimonials styles ------------------------------------------- */
+.storybook-testimonials {
+    background-color: var(--color-bg); /* purple */
+    padding: 2rem 0;
+}
+
+    .storybook-testimonials .cover-title {
+        color: var(--color-heading) !important; /* white */
+    }
+
+    /* Ensure any stray text outside cards is off‑white */
+    .storybook-testimonials p,
+    .storybook-testimonials .lead {
+        color: var(--color-text) !important; /* off‑white */
+    }
+
+    /* Cards stay white with black text */
+    .storybook-testimonials .card-kids {
+        background-color: var(--color-light) !important; /* white */
+    }
+
+        .storybook-testimonials .card-kids p {
+            color: #000000 !important; /* black */
+        }
+
+        .storybook-testimonials .card-kids h6 {
+            color: var(--color-link) !important; /* lavender or your link color */
+        }
+/* Footer text & icons in dark purple instead of off‑white */
+footer,
+footer a,
+footer a .bi {
+    color: var(--color-bg) !important; /* #2e004f */
+}
+
+    /* Hover state can go lighter if you like */
+    footer a:hover,
+    footer a:hover .bi {
+        color: var(--color-link) !important; /* lavender */
+    }
