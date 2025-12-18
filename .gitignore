@@ -1,2 +1,5 @@
 # Ignore Visual Studio cache
 .vs/
+
+# Local Netlify folder
+.netlify
