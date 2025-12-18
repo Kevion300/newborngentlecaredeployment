@@ -1,25 +1,68 @@
 const { Client } = require("pg");
 
-function requireAdmin(event) {
-    const key = event.headers["x-admin-key"];
-    return key && key === process.env.ADMIN_KEY;
+function getAdminKey(event) {
+    // Netlify header keys can vary in casing
+    const h = event.headers || {};
+    return (
+        h["x-admin-key"] ||
+        h["X-Admin-Key"] ||
+        h["x-admin-key".toLowerCase()] ||
+        h["X-ADMIN-KEY"] ||
+        ""
+    );
 }
 
 exports.handler = async (event) => {
-    if (!requireAdmin(event)) {
-        return { statusCode: 401, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ error: "Unauthorized" }) };
+    // Handle preflight (PATCH + custom headers triggers OPTIONS sometimes)
+    if (event.httpMethod === "OPTIONS") {
+        return {
+            statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type, x-admin-key",
+                "Access-Control-Allow-Methods": "PATCH, OPTIONS",
+            },
+            body: "",
+        };
     }
 
     if (event.httpMethod !== "PATCH") {
-        return { statusCode: 405, body: "Method Not Allowed" };
+        return {
+            statusCode: 405,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: "Method Not Allowed" }),
+        };
     }
 
-    const body = JSON.parse(event.body || "{}");
+    const key = getAdminKey(event);
+    if (!key || key !== process.env.ADMIN_KEY) {
+        return {
+            statusCode: 401,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: "Unauthorized" }),
+        };
+    }
+
+    let body;
+    try {
+        body = JSON.parse(event.body || "{}");
+    } catch {
+        return {
+            statusCode: 400,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: "Invalid JSON body." }),
+        };
+    }
+
     const id = Number(body.id);
     const status = body.status;
 
-    if (!id || !["pending", "approved", "rejected"].includes(status)) {
-        return { statusCode: 400, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ error: "Invalid id or status." }) };
+    if (!Number.isFinite(id) || !["pending", "approved", "rejected"].includes(status)) {
+        return {
+            statusCode: 400,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: "Invalid id or status." }),
+        };
     }
 
     const client = new Client({
@@ -27,23 +70,43 @@ exports.handler = async (event) => {
         ssl: { rejectUnauthorized: false },
     });
 
-    await client.connect();
-
     try {
+        await client.connect();
+
         const { rows } = await client.query(
             `UPDATE testimonials
-       SET status=$2,
-           approved_at = CASE WHEN $2='approved' THEN NOW() ELSE approved_at END
-       WHERE id=$1
-       RETURNING id, status`,
+       SET status = $2,
+           approved_at = CASE WHEN $2 = 'approved' THEN NOW() ELSE approved_at END
+       WHERE id = $1
+       RETURNING id, status, approved_at`,
             [id, status]
         );
 
-        return { statusCode: 200, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ok: true, testimonial: rows[0] }) };
+        if (!rows.length) {
+            return {
+                statusCode: 404,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ error: "Testimonial not found." }),
+            };
+        }
+
+        return {
+            statusCode: 200,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ok: true, testimonial: rows[0] }),
+        };
     } catch (err) {
         console.error("admin-testimonials-status error:", err);
-        return { statusCode: 500, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ error: "Server error" }) };
+
+        // Return a safe message to client; details stay in logs
+        return {
+            statusCode: 500,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: "Server error updating testimonial." }),
+        };
     } finally {
-        await client.end();
+        try {
+            await client.end();
+        } catch { }
     }
 };
