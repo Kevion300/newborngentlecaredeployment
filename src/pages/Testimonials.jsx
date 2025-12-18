@@ -1,3 +1,4 @@
+// src/pages/Testimonials.jsx
 import React, { useEffect, useState } from "react";
 
 function Stars({ value }) {
@@ -23,7 +24,11 @@ export default function Testimonials() {
     const [name, setName] = useState("");
     const [rating, setRating] = useState(5);
     const [message, setMessage] = useState("");
+
+    // status message + type + submitting state
     const [statusMsg, setStatusMsg] = useState("");
+    const [statusType, setStatusType] = useState(""); // "success" | "error" | "info"
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     async function loadApproved() {
         setLoading(true);
@@ -44,24 +49,46 @@ export default function Testimonials() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        setStatusMsg("");
 
-        const res = await fetch("/.netlify/functions/testimonials-submit", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, rating, message }),
-        });
+        // Immediately show a message when submit is clicked
+        setIsSubmitting(true);
+        setStatusMsg("Submitting your testimonial...");
+        setStatusType("info");
 
-        const data = await res.json();
-        if (!res.ok) {
-            setStatusMsg(data?.error || "Something went wrong.");
-            return;
+        try {
+            const res = await fetch("/.netlify/functions/testimonials-submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, rating, message }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                setStatusMsg(data?.error || "Something went wrong.");
+                setStatusType("error");
+                return;
+            }
+
+            setStatusMsg("✅ Thank you! Your testimonial was submitted and is pending approval.");
+            setStatusType("success");
+
+            // reset form
+            setName("");
+            setRating(5);
+            setMessage("");
+
+            // Optional: auto-hide message after 5 seconds
+            setTimeout(() => {
+                setStatusMsg("");
+                setStatusType("");
+            }, 5000);
+        } catch {
+            setStatusMsg("Network error. Please try again.");
+            setStatusType("error");
+        } finally {
+            setIsSubmitting(false);
         }
-
-        setStatusMsg("✅ Thank you! Your testimonial was submitted and is pending approval.");
-        setName("");
-        setRating(5);
-        setMessage("");
     }
 
     return (
@@ -73,7 +100,19 @@ export default function Testimonials() {
                 <div className="card p-4 mb-5 shadow-sm">
                     <h5 className="mb-3">Leave a Testimonial</h5>
 
-                    {statusMsg && <div className="alert alert-info">{statusMsg}</div>}
+                    {statusMsg && (
+                        <div
+                            className={`alert ${statusType === "success"
+                                    ? "alert-success"
+                                    : statusType === "error"
+                                        ? "alert-danger"
+                                        : "alert-info"
+                                }`}
+                            role="alert"
+                        >
+                            {statusMsg}
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit}>
                         <div className="row g-3">
@@ -84,6 +123,7 @@ export default function Testimonials() {
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     required
+                                    disabled={isSubmitting}
                                 />
                             </div>
 
@@ -93,6 +133,7 @@ export default function Testimonials() {
                                     className="form-select"
                                     value={rating}
                                     onChange={(e) => setRating(Number(e.target.value))}
+                                    disabled={isSubmitting}
                                 >
                                     {[5, 4, 3, 2, 1].map((n) => (
                                         <option key={n} value={n}>
@@ -110,12 +151,15 @@ export default function Testimonials() {
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
                                     required
+                                    disabled={isSubmitting}
                                 />
                                 <div className="form-text">Your testimonial will appear after approval.</div>
                             </div>
 
                             <div className="col-12">
-                                <button className="btn btn-primary">Submit</button>
+                                <button className="btn btn-primary" disabled={isSubmitting}>
+                                    {isSubmitting ? "Submitting..." : "Submit"}
+                                </button>
                             </div>
                         </div>
                     </form>
