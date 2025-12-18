@@ -59,7 +59,7 @@ h1, h2 {
     color: #ffffff !important;
 }
 
-/* Updated paragraph color to off‑white for visibility on purple */
+/* Updated paragraph color to off-white for visibility on purple */
 p {
     margin-bottom: var(--spacing-md);
     color: var(--color-text); /* which is #f0eefe */
@@ -166,7 +166,7 @@ textarea {
     min-height: 100vh !important;
 }
 
-/* 12. Cover‑Page Styles (only for Home.jsx) -------------------------------- */
+/* 12. Cover-Page Styles (only for Home.jsx) -------------------------------- */
 .cover-page {
     background-color: var(--color-bg);
     color: var(--color-text);
@@ -203,7 +203,7 @@ textarea {
     background-color: var(--color-heading);
 }
 
-/* 13. Page‑flip effect for the cover ---------------------------------------- */
+/* 13. Page-flip effect for the cover ---------------------------------------- */
 .cover-page,
 .cover-page > * {
     backface-visibility: hidden;
@@ -214,7 +214,8 @@ textarea {
     .cover-page.flipped {
         transform: rotateY(-180deg);
     }
-/* 14. Storybook‑About text visibility and card styles ---------------------- */
+
+/* 14. Storybook-About text visibility and card styles ---------------------- */
 .storybook-about {
     background-color: var(--color-bg); /* purple */
     padding: 2rem 0;
@@ -244,7 +245,8 @@ textarea {
         .storybook-about .card-kids h5 {
             color: #000000 !important;
         }
-/* Fade‑in on scroll -------------------------------------------------------- */
+
+/* Fade-in on scroll -------------------------------------------------------- */
 .fade-in-element {
     opacity: 0;
     transform: translateY(20px);
@@ -255,7 +257,8 @@ textarea {
         opacity: 1;
         transform: translateY(0);
     }
-/* Storybook‑Testimonials styles ------------------------------------------- */
+
+/* Storybook-Testimonials styles ------------------------------------------- */
 .storybook-testimonials {
     background-color: var(--color-bg); /* purple */
     padding: 2rem 0;
@@ -265,25 +268,39 @@ textarea {
         color: var(--color-heading) !important; /* white */
     }
 
-    /* Ensure any stray text outside cards is off‑white */
-    .storybook-testimonials p,
-    .storybook-testimonials .lead {
-        color: var(--color-text) !important; /* off‑white */
+    /* ✅ OPTION A FIX:
+   Only NON-card text in testimonials should be off-white
+   (prevents white cards from inheriting off-white paragraph text) */
+    .storybook-testimonials > .container > p,
+    .storybook-testimonials > .container > .lead {
+        color: var(--color-text) !important; /* off-white */
     }
 
-    /* Cards stay white with black text */
+    /* Cards stay white */
     .storybook-testimonials .card-kids {
         background-color: var(--color-light) !important; /* white */
     }
 
+        /* If you use .card-kids, keep these too */
         .storybook-testimonials .card-kids p {
             color: #000000 !important; /* black */
         }
 
         .storybook-testimonials .card-kids h6 {
-            color: var(--color-link) !important; /* lavender or your link color */
+            color: var(--color-link) !important; /* lavender */
         }
-/* Footer text & icons in dark purple instead of off‑white */
+
+    /* ✅ Force text inside ANY Bootstrap card in testimonials to be readable */
+    .storybook-testimonials .card p {
+        color: #212529 !important; /* readable dark */
+        opacity: 1 !important;
+    }
+
+    .storybook-testimonials .card h6 {
+        color: var(--color-link) !important; /* lavender/name */
+    }
+
+/* Footer text & icons in dark purple instead of off-white */
 footer,
 footer a,
 footer a .bi {
