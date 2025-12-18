@@ -1,3 +1,4 @@
+﻿// netlify/functions/admin-testimonials-status.js
 const { Client } = require("pg");
 
 function getAdminKey(event) {
@@ -13,7 +14,7 @@ function getAdminKey(event) {
 }
 
 exports.handler = async (event) => {
-    // Handle preflight (PATCH + custom headers triggers OPTIONS sometimes)
+    // Handle preflight (PATCH + custom headers can trigger OPTIONS)
     if (event.httpMethod === "OPTIONS") {
         return {
             statusCode: 200,
@@ -73,14 +74,31 @@ exports.handler = async (event) => {
     try {
         await client.connect();
 
-        const { rows } = await client.query(
-            `UPDATE testimonials
-       SET status = $2,
-           approved_at = CASE WHEN $2 = 'approved' THEN NOW() ELSE approved_at END
-       WHERE id = $1
-       RETURNING id, status, approved_at`,
-            [id, status]
-        );
+        // ✅ Updated logic (no CASE WHEN) to avoid NULL/edge issues
+        let query;
+        let params;
+
+        if (status === "approved") {
+            query = `
+        UPDATE testimonials
+        SET status = $2,
+            approved_at = NOW()
+        WHERE id = $1
+        RETURNING id, status, approved_at
+      `;
+            params = [id, status];
+        } else {
+            query = `
+        UPDATE testimonials
+        SET status = $2,
+            approved_at = NULL
+        WHERE id = $1
+        RETURNING id, status, approved_at
+      `;
+            params = [id, status];
+        }
+
+        const { rows } = await client.query(query, params);
 
         if (!rows.length) {
             return {
@@ -98,7 +116,6 @@ exports.handler = async (event) => {
     } catch (err) {
         console.error("admin-testimonials-status error:", err);
 
-        // Return a safe message to client; details stay in logs
         return {
             statusCode: 500,
             headers: { "Content-Type": "application/json" },
