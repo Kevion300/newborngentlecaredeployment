@@ -1,5 +1,5 @@
 // src/pages/Testimonials.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 function Stars({ value }) {
     return (
@@ -87,105 +87,105 @@ export default function Testimonials() {
         }
     }
 
+    const alertClass = useMemo(() => {
+        if (statusType === "success") return "alert-success";
+        if (statusType === "error") return "alert-danger";
+        return "alert-info";
+    }, [statusType]);
+
     return (
         <section className="py-5 storybook-testimonials">
             <div className="container">
                 <h2 className="text-center mb-4">What Our Clients Say</h2>
 
-                {/* Submit form */}
-                <div className="card p-4 mb-5 shadow-sm">
-                    <h5 className="mb-3">Leave a Testimonial</h5>
+                {/* ✅ NEW LAYOUT: Form on the left, testimonials on the right */}
+                <div className="row g-4 align-items-start">
+                    {/* LEFT: Submit form */}
+                    <div className="col-12 col-lg-4">
+                        <div className="card p-4 shadow-sm position-sticky" style={{ top: "1.25rem" }}>
+                            <h5 className="mb-3">Leave a Testimonial</h5>
 
-                    {statusMsg && (
-                        <div
-                            className={`alert ${statusType === "success"
-                                    ? "alert-success"
-                                    : statusType === "error"
-                                        ? "alert-danger"
-                                        : "alert-info"
-                                }`}
-                            role="alert"
-                        >
-                            {statusMsg}
-                        </div>
-                    )}
-
-                    <form onSubmit={handleSubmit}>
-                        <div className="row g-3">
-                            <div className="col-12 col-md-6">
-                                <label className="form-label">Your name</label>
-                                <input
-                                    className="form-control"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    required
-                                    disabled={isSubmitting}
-                                />
-                            </div>
-
-                            <div className="col-12 col-md-6">
-                                <label className="form-label">Rating</label>
-                                <select
-                                    className="form-select"
-                                    value={rating}
-                                    onChange={(e) => setRating(Number(e.target.value))}
-                                    disabled={isSubmitting}
-                                >
-                                    {[5, 4, 3, 2, 1].map((n) => (
-                                        <option key={n} value={n}>
-                                            {n} star{n > 1 ? "s" : ""}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="col-12">
-                                <label className="form-label">Message</label>
-                                <textarea
-                                    className="form-control"
-                                    rows="4"
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    required
-                                    disabled={isSubmitting}
-                                />
-                                <div className="form-text">
-                                    Your testimonial will appear after approval.
+                            {statusMsg && (
+                                <div className={`alert ${alertClass}`} role="alert">
+                                    {statusMsg}
                                 </div>
-                            </div>
+                            )}
 
-                            <div className="col-12">
-                                <button className="btn btn-primary" disabled={isSubmitting}>
-                                    {isSubmitting ? "Submitting..." : "Submit"}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                            <form onSubmit={handleSubmit}>
+                                <div className="row g-3">
+                                    <div className="col-12">
+                                        <label className="form-label">Your name</label>
+                                        <input
+                                            className="form-control"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            required
+                                            disabled={isSubmitting}
+                                        />
+                                    </div>
 
-                {/* Approved testimonials */}
-                {loading ? (
-                    <p>Loading testimonials…</p>
-                ) : (
-                    <div className="row g-4">
-                        {approved.map((t) => (
-                            <div key={t.id} className="col-12 col-md-6 col-lg-4">
-                                <div className="card p-4 h-100 shadow-sm">
-                                    <Stars value={t.rating} />
-                                    <p className="mb-3 text-dark">
-                                        “{t.message}”
-                                    </p>
-                                    <h6 className="mb-0 text-primary fw-semibold">
-                                        — {t.name}
-                                    </h6>
+                                    <div className="col-12">
+                                        <label className="form-label">Rating</label>
+                                        <select
+                                            className="form-select"
+                                            value={rating}
+                                            onChange={(e) => setRating(Number(e.target.value))}
+                                            disabled={isSubmitting}
+                                        >
+                                            {[5, 4, 3, 2, 1].map((n) => (
+                                                <option key={n} value={n}>
+                                                    {n} star{n > 1 ? "s" : ""}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    <div className="col-12">
+                                        <label className="form-label">Message</label>
+                                        <textarea
+                                            className="form-control"
+                                            rows="4"
+                                            value={message}
+                                            onChange={(e) => setMessage(e.target.value)}
+                                            required
+                                            disabled={isSubmitting}
+                                        />
+                                        <div className="form-text">Your testimonial will appear after approval.</div>
+                                    </div>
+
+                                    <div className="col-12">
+                                        <button className="btn btn-primary w-100" disabled={isSubmitting}>
+                                            {isSubmitting ? "Submitting..." : "Submit"}
+                                        </button>
+                                    </div>
                                 </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    {/* RIGHT: Approved testimonials */}
+                    <div className="col-12 col-lg-8">
+                        {loading ? (
+                            <p>Loading testimonials…</p>
+                        ) : (
+                            <div className="row g-4">
+                                {approved.map((t) => (
+                                    <div key={t.id} className="col-12 col-md-6">
+                                        <div className="card p-4 h-100 shadow-sm">
+                                            <Stars value={t.rating} />
+                                            <p className="mb-3 text-dark">“{t.message}”</p>
+                                            <h6 className="mb-0 text-primary fw-semibold">— {t.name}</h6>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {!approved.length && (
+                                    <p className="text-muted">No approved testimonials yet.</p>
+                                )}
                             </div>
-                        ))}
-                        {!approved.length && (
-                            <p className="text-muted">No approved testimonials yet.</p>
                         )}
                     </div>
-                )}
+                </div>
             </div>
         </section>
     );
