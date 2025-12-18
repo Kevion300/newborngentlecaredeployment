@@ -25,9 +25,8 @@ export default function Testimonials() {
     const [rating, setRating] = useState(5);
     const [message, setMessage] = useState("");
 
-    // status message + type + submitting state
     const [statusMsg, setStatusMsg] = useState("");
-    const [statusType, setStatusType] = useState(""); // "success" | "error" | "info"
+    const [statusType, setStatusType] = useState(""); // success | error | info
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     async function loadApproved() {
@@ -50,7 +49,6 @@ export default function Testimonials() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        // Immediately show a message when submit is clicked
         setIsSubmitting(true);
         setStatusMsg("Submitting your testimonial...");
         setStatusType("info");
@@ -73,12 +71,10 @@ export default function Testimonials() {
             setStatusMsg("✅ Thank you! Your testimonial was submitted and is pending approval.");
             setStatusType("success");
 
-            // reset form
             setName("");
             setRating(5);
             setMessage("");
 
-            // Optional: auto-hide message after 5 seconds
             setTimeout(() => {
                 setStatusMsg("");
                 setStatusType("");
@@ -92,7 +88,7 @@ export default function Testimonials() {
     }
 
     return (
-        <section className="py-5">
+        <section className="py-5 storybook-testimonials">
             <div className="container">
                 <h2 className="text-center mb-4">What Our Clients Say</h2>
 
@@ -153,7 +149,9 @@ export default function Testimonials() {
                                     required
                                     disabled={isSubmitting}
                                 />
-                                <div className="form-text">Your testimonial will appear after approval.</div>
+                                <div className="form-text">
+                                    Your testimonial will appear after approval.
+                                </div>
                             </div>
 
                             <div className="col-12">
@@ -174,12 +172,18 @@ export default function Testimonials() {
                             <div key={t.id} className="col-12 col-md-6 col-lg-4">
                                 <div className="card p-4 h-100 shadow-sm">
                                     <Stars value={t.rating} />
-                                    <p className="mb-3">“{t.message}”</p>
-                                    <h6 className="mb-0 text-primary">— {t.name}</h6>
+                                    <p className="mb-3 text-dark">
+                                        “{t.message}”
+                                    </p>
+                                    <h6 className="mb-0 text-primary fw-semibold">
+                                        — {t.name}
+                                    </h6>
                                 </div>
                             </div>
                         ))}
-                        {!approved.length && <p className="text-muted">No approved testimonials yet.</p>}
+                        {!approved.length && (
+                            <p className="text-muted">No approved testimonials yet.</p>
+                        )}
                     </div>
                 )}
             </div>
